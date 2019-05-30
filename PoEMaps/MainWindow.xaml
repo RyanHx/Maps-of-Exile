@@ -1,0 +1,295 @@
+﻿<Window x:Class="PoEMaps.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PoEMaps"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="PoEMaps - RyanHx"
+        Height="580"
+        Width="1010"
+        Background="#FF2D2D30"
+        BorderBrush="#FF646464"
+        FontSize="16"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing">
+
+
+    <Window.Resources>
+        <DataTemplate x:Key="MapsListItems">
+            <Grid HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition MinWidth="280"
+                                      Width="*" />
+                    <ColumnDefinition MinWidth="200"
+                                      Width="*" />
+                    <ColumnDefinition MinWidth="50"
+                                      Width="auto" />
+                    <ColumnDefinition MinWidth="50"
+                                      Width="auto" />
+                </Grid.ColumnDefinitions>
+                <CheckBox x:Name="MapResultCheckbox"
+                          Tag="{Binding IsChecked}"
+                          IsChecked="{Binding IsChecked}"
+                          Click="MapResultCheckbox_Click" />
+                <TextBlock Grid.Column="1"
+                           Text="{Binding Map.Name}"
+                           HorizontalAlignment="Center"
+                           Margin="5 0 5 0" />
+                <Slider x:Name="QuantSlider"
+                        Grid.Column="2"
+                        Minimum="1"
+                        Maximum="{Binding Quantity}"
+                        Value="{Binding NumSelected}"
+                        IsSnapToTickEnabled="True"
+                        TickFrequency="1"
+                        ValueChanged="QuantSlider_ValueChanged" />
+                <TextBlock Grid.Column="3"
+                           Margin="5 0 0 0"
+                           x:Name="Stock"
+                           HorizontalAlignment="Center">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} / {1}">
+                            <Binding ElementName="QuantSlider"
+                                     Path="Value" />
+                            <Binding Path="Quantity" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <TextBlock Grid.Column="4"
+                           HorizontalAlignment="Center">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} {1}">
+                            <Binding Path="Price.amount" />
+                            <Binding Path="Price.currency" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="finalResultstTemplate">
+            <Grid VerticalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0"
+                           Text="{Binding AccountName}" />
+                <ListView Grid.Row="1"
+                          ItemsSource="{Binding Maps}"
+                          ItemTemplate="{StaticResource MapsListItems}"
+                          VerticalAlignment="Stretch"
+                          IsSynchronizedWithCurrentItem="True"
+                          Background="White"
+                          Foreground="#FF39393A" />
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Border Padding="5">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Left side of window-->
+
+            <TextBlock Text="Maps"
+                       Margin="10 0 0 0"
+                       Foreground="#FF767676" />
+
+            <!-- Maps list -->
+            <ListView Grid.Row="1"
+                      Margin="0 0 2 1"
+                      x:Name="MapListView"
+                      Background="#FF3F3F46"
+                      BorderBrush="{x:Null}"
+                      Foreground="White">
+                <ListView.View>
+                    <GridView AllowsColumnReorder="False">
+                        <!-- Checkbox column -->
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox x:Name="MapCheckbox"
+                                              Tag="{Binding Map.Name}"
+                                              IsChecked="{Binding IsChecked}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <!-- Map name column -->
+                        <GridViewColumn Header="Map Name"
+                                        DisplayMemberBinding="{Binding Map.Name}" />
+                        <!-- Map tier column -->
+                        <GridViewColumn Header="Tier"
+                                        DisplayMemberBinding="{Binding Map.Tier}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <!-- Filters child grid -->
+            <Grid Grid.Row="2"
+                  Grid.Column="0"
+                  Margin="2 1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Filter textbox -->
+                <xctk:WatermarkTextBox Margin="-2 0 0 0"
+                                       x:Name="FilterTextBox"
+                                       Watermark="Filter"
+                                       Background="#FF333337"
+                                       Foreground="White"
+                                       TextChanged="FilterTextBox_TextChanged" />
+                <!-- Clear Button -->
+                <Button Margin="0 0 0 0"
+                        Padding="6 0 6 0"
+                        x:Name="ClearButton"
+                        Content="Clear"
+                        Grid.Column="2"
+                        Background="#FF007ACC"
+                        Foreground="White"
+                        BorderBrush="{x:Null}"
+                        Click="ClearButton_Click" />
+            </Grid>
+
+            <!-- League & Search buttons child grid -->
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- League dropdown -->
+                <xctk:WatermarkComboBox Watermark="League"
+                                        x:Name="LeagueComboBox"
+                                        Margin="0 0 0 0"
+                                        Padding="2 2 2 2"
+                                        HorizontalContentAlignment="Center" />
+
+
+                <!-- Search Button -->
+                <Button Margin="0 0 2 0"
+                        Padding="0 0 1 2"
+                        x:Name="SearchButton"
+                        Content="Search"
+                        Click="SearchButton_Click"
+                        Grid.Column="1"
+                        Background="#FF007ACC"
+                        Foreground="White"
+                        BorderBrush="{x:Null}" />
+            </Grid>
+
+            <!-- Right side of window -->
+
+            <TextBlock Text="Results"
+                       Grid.Column="1"
+                       Margin="10 0 0 0"
+                       Foreground="#FF767676" />
+
+            <DockPanel Grid.Column="1"
+                       HorizontalAlignment="Right">
+                <Menu DockPanel.Dock="Top">
+                    <MenuItem Header="_Menu">
+                        <MenuItem Header="Number of results" IsCheckable="False" x:Name="NumOfResultsMenu">
+                            <MenuItem Header="10" 
+                                      x:Name="_10"
+                                      Click="NumOfResultsMenuItem_Click" />
+                            <MenuItem Header="20 (Recommended)"
+                                      x:Name="_20"
+                                      Click="NumOfResultsMenuItem_Click" />
+                            <MenuItem Header="30"
+                                      x:Name="_30"
+                                      Click="NumOfResultsMenuItem_Click" />
+                            <MenuItem Header="40"
+                                      x:Name="_40"
+                                      Click="NumOfResultsMenuItem_Click" />
+                            <MenuItem Header="50 (Not recommended)"
+                                      x:Name="_50"
+                                      Click="NumOfResultsMenuItem_Click" />
+                        </MenuItem>
+                        <MenuItem x:Name="LoggingMenuItem"
+                                  Header="Enable logging"
+                                  IsCheckable="True"
+                                  Click="LoggingMenuItem_Click" />
+                        <MenuItem Header="Github..." IsCheckable="False"/>
+                    </MenuItem>
+                </Menu>
+                <StackPanel></StackPanel>
+            </DockPanel>
+
+            <!-- Results list -->
+            <ListView x:Name="ResultsListView"
+                      Grid.Column="1"
+                      Grid.Row="1"
+                      Grid.RowSpan="2"
+                      Background="#FF333337"
+                      Foreground="White"
+                      ItemTemplate="{StaticResource finalResultstTemplate}"
+                      SelectionChanged="ResultsListView_SelectionChanged" />
+
+            <TextBlock x:Name="NoResultsTextBlock"
+                       Grid.Column="1"
+                       Grid.Row="1"
+                       Grid.RowSpan="2"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Text="No results"
+                       Foreground="#FF555353"
+                       Visibility="Hidden"
+                       FontSize="36" />
+
+            <!-- Whisper text box & copy button child grid -->
+            <Grid Grid.Column="1"
+                  Grid.Row="3">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="5*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Account dropdown -->
+                <xctk:WatermarkComboBox Watermark="Account"
+                                        x:Name="AccountComboBox"
+                                        Margin="0 0 0 0"
+                                        Padding="2 2 2 0"
+                                        HorizontalContentAlignment="Center"
+                                        SelectionChanged="AccountComboBox_SelectionChanged" />
+
+                <!-- Whisper text box -->
+                <TextBox IsReadOnly="True"
+                         Grid.Column="1"
+                         x:Name="WhisperTextBox"
+                         Background="#FF333337"
+                         TextWrapping="Wrap"
+                         Foreground="White" />
+                <!-- Copy button -->
+                <Button Grid.Column="2"
+                        Content="Copy"
+                        x:Name="CopyButton"
+                        Background="#FF007ACC"
+                        Foreground="White"
+                        BorderBrush="{x:Null}"
+                        Click="CopyButton_Click" />
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
