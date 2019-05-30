@@ -33,7 +33,7 @@ That's pretty much it to get things up and running! Here's some info to get hold
 ### Help! The program's not working!
 There might be a few things happening so try the following before submitting a bug report:
 * Download the latest .NET [here](https://dotnet.microsoft.com/download) (the **framework runtime** on the right hand side)
-* Run the program as admin - depending on the drive you have the application on it may need admin privileges in order to create the default log file and copy text to the clipboard.
+* Run the program as admin - depending on the drive you have the application running on it may need admin privileges to create the default log file, copy text to the clipboard and save your settings.
 * Add a rule in your firewall - a firewall is the most likely cause of any connection errors.
 * Check the API is up - there should be notifications on any failed HTTP requests. If the API is up and the problem's still happening, let me know how to reproduce the error and I'll work on a fix ASAP.
 
