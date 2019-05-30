@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PoEMaps"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="PoEMaps - RyanHx"
+        Title="Maps of Exile - RyanHx"
         Height="580"
         Width="1010"
         Background="#FF2D2D30"

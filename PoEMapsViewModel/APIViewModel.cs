@@ -61,9 +61,7 @@ namespace PoEMapsViewModel
         public static ObservableCollection<string> accountList = new ObservableCollection<string>();
 
         public static async Task SearchAsync(string selectedLeague)
-        {            
-            //FetchModel fetch = new FetchModel();
-
+        {
             List<ResultModel> resultModels = new List<ResultModel>();
             List<FetchModel> fetchModels = new List<FetchModel>();
             List<APIViewModel> finalAPIResults = new List<APIViewModel>();
@@ -110,28 +108,19 @@ namespace PoEMapsViewModel
                 {
                     search.Query.Name.Option = map.Map.Name;
                 }
-                //search.Query.Term = map.Map.Name;
                 search.Query.Filters.MapFilters.Filters.MapTier.Max = map.Map.Tier; // Set maximum tier option to current map's tier (avoids receiving shaped on non-shaped searches)
 
                 string jsonQuery = JsonConvert.SerializeObject(search, Formatting.None); // Serialize search model into JSON
 
                 string searchUrl = @"https://www.pathofexile.com/api/trade/search/" + selectedLeague + "?source=" + jsonQuery; // Set final trade/search URL
 
-                //if (!map.Map.Name.Contains("Map"))
-                //{
-                searchUrl = searchUrl.Replace(@"""type"":{""option"":null,""discriminator"":""warfortheatlas""},", "");
-                //}
-                //else
-                //{
+                searchUrl = searchUrl.Replace(@"""type"":{""option"":null,""discriminator"":""warfortheatlas""},", ""); // replace "null" values as they break request to API
                 searchUrl = searchUrl.Replace(@"""name"":{""option"":null,""discriminator"":""warfortheatlas""},", "");
-                //}
 
                 HttpResponseMessage responseMessage = new HttpResponseMessage();
                 responseMessage.Headers.Add("Accept", "application/json");
                 responseMessage = await ApiClient.GetAsync(searchUrl); // Send request to GGG API using current search URL and place response into 'responseMessage'
                 responseMessage.EnsureSuccessStatusCode(); // Throw HttpResponseException if search request fails
-
-                //result = JsonConvert.DeserializeObject<ResultModel>(await responseMessage.Content.ReadAsStringAsync()); // Convert search results to ResultModel object
                 resultModels.Add(JsonConvert.DeserializeObject<ResultModel>(await responseMessage.Content.ReadAsStringAsync())); // Add result to list
             }
             #region Log search success
@@ -240,9 +229,6 @@ namespace PoEMapsViewModel
                         HttpResponseMessage responseMessage = new HttpResponseMessage();
                         responseMessage = await ApiClient.GetAsync(pendingFetchUrl); // Send request to GGG API using current fetch URL and place response into 'responseMessage'
                         responseMessage.EnsureSuccessStatusCode(); // Throws HttpResponseException if fetch fails
-
-                        //fetch = JsonConvert.DeserializeObject<FetchModel>(await responseMessage.Content.ReadAsStringAsync()); // Convert fetch results to FetchModel object
-                        //fetchModels.Add(fetch); // Add fetch to list
                         fetchModels.Add(JsonConvert.DeserializeObject<FetchModel>(await responseMessage.Content.ReadAsStringAsync()));
                     }
                     if (Helper.UserSettings.LoggingIsEnabled())
@@ -262,7 +248,6 @@ namespace PoEMapsViewModel
                     sw.WriteLine("[" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + "] " + "Trade/Fetch requests successful");
                 }
             }
-
             #endregion
             #endregion
 
@@ -352,7 +337,6 @@ namespace PoEMapsViewModel
                         accountList.Add(obsResult.AccountName);
                     }
                 }
-
             });
             #region Log sorting end
             if (Helper.UserSettings.LoggingIsEnabled())
@@ -362,7 +346,6 @@ namespace PoEMapsViewModel
                     sw.WriteLine("[" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + "] " + "Sorting results successful");
                 }
             }
-
             #endregion
             #endregion
         }
@@ -427,7 +410,7 @@ namespace PoEMapsViewModel
                     {
                         sb.Append(map.NumSelected).Append(" ").Append(map.Map.Name).Append(" ");
                     }
-                    if(map.Price != null)
+                    if (map.Price != null)
                     {
                         if (!cost.ContainsKey(map.Price.currency))
                         {
@@ -438,7 +421,7 @@ namespace PoEMapsViewModel
                             cost[map.Price.currency] += map.Price.amount * map.NumSelected;
                         }
                     }
-                    
+
                 }
             }
 
@@ -463,7 +446,6 @@ namespace PoEMapsViewModel
             }
 
             sb.Replace(", for", " for");
-
             whisperMessage = sb.ToString();
 
             return whisperMessage;
