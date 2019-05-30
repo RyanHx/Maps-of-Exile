@@ -235,5 +235,10 @@ namespace PoEMaps
         {
 
         }
+
+        private void GithubMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/RyanHx/Maps-of-Exile");
+        }
     }
 }

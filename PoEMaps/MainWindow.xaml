@@ -229,7 +229,8 @@
                                   Header="Enable logging"
                                   IsCheckable="True"
                                   Click="LoggingMenuItem_Click" />
-                        <MenuItem Header="Github..." IsCheckable="False"/>
+                        <MenuItem x:Name="GithubMenuItem" Header="Github..." IsCheckable="False"
+                                  Click="GithubMenuItem_Click" />
                     </MenuItem>
                 </Menu>
                 <StackPanel></StackPanel>
