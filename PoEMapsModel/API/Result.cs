@@ -1,6 +1,5 @@
 ﻿namespace PoEMapsModel.API
 {
-
     public class ResultModel
     {
         public string[] result { get; set; }
@@ -12,5 +11,4 @@
             result = new string[200];
         }
     }
-
 }

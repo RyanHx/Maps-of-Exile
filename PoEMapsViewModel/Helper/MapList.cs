@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualBasic.FileIO;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using PoEMapsModel.Maps;
-using System.Diagnostics;
 
 namespace PoEMapsViewModel.Helper
 {
