@@ -3,6 +3,9 @@
 **Maps of Exile** is a desktop application used for buying maps in bulk in Path of Exile. You select the maps you want and it'll aggregate any results by account to save time on trading.
 
 ## Getting started
+
+Download the application [here]
+
 Simply open up the application via the MapsOfExile.exe and tick any maps you'd like from the list to the left of the window. Then select your league via the dropdown box in the bottom left, and hit Search!
 
 The results will then show up in the panel on the right hand side of the window. To generate a whisper message simply click on the account name in the results panel, or select the account manually via the **Account** dropdown box. 
@@ -29,6 +32,7 @@ That's pretty much it to get things up and running! Here's some info to get hold
 
 ### Help! The program's not working!
 There might be a few things happening so try the following before submitting a bug report:
+* Download the latest .NET [here](https://dotnet.microsoft.com/download) (the **framework runtime** on the right hand side)
 * Run the program as admin - depending on the drive you have the application on it may need admin privileges in order to create the default log file and copy text to the clipboard.
 * Add a rule in your firewall - a firewall is the most likely cause of any connection errors.
 * Check the API is up - there should be notifications on any failed HTTP requests. If the API is up and the problem's still happening, let me know how to reproduce the error and I'll work on a fix ASAP.
