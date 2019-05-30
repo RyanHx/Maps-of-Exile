@@ -6,7 +6,7 @@
 
 Download the application [here]
 
-Simply open up the application via the MapsOfExile.exe and tick any maps you'd like from the list to the left of the window. Then select your league via the dropdown box in the bottom left, and hit Search!
+Simply open up the application via the MapsOfExile.exe and tick any maps you'd like from the list on the left of the window. Then select your league via the dropdown box in the bottom left, and hit Search!
 
 The results will then show up in the panel on the right hand side of the window. To generate a whisper message simply click on the account name in the results panel, or select the account manually via the **Account** dropdown box. 
 
