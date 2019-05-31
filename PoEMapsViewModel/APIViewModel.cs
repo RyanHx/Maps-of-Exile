@@ -379,7 +379,8 @@ namespace PoEMapsViewModel
                 {
                     if (result.listing.whisper.Contains(map.Map.Name))
                     {
-                        sb.Insert(0, "Unique ");
+                        sb.Clear();
+                        sb.Append(map.Map.Name);
                         break;
                     }
                 }
