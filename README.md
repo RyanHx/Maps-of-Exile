@@ -4,7 +4,7 @@
 
 ## Getting started
 
-Download the application [here](https://github.com/RyanHx/Maps-of-Exile/releases/download/v1.0/MapsOfExile.zip)
+Download the application [here](https://github.com/RyanHx/Maps-of-Exile/releases/download/v1.0.1/MapsOfExile.zip)
 
 Simply open up the application via the MapsOfExile.exe and tick any maps you'd like from the list on the left of the window. Then select your league via the dropdown box in the bottom left, and hit Search!
 
