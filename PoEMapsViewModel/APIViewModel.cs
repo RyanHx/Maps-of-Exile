@@ -180,7 +180,6 @@ namespace PoEMapsViewModel
 
                     #endregion
                     PoEMapsViewModel.Helper.UserSettings.Log("-- Begin fetches from fetchUrlCollection");
-
                 }
                 if (fetchUrlCollection.Count > 0)
                 {
@@ -215,9 +214,9 @@ namespace PoEMapsViewModel
                             temp.Add(map);
                         }
 
-                        if (temp.Any(x => x.Map.Name.Equals(fetchModel.result[i].item.typeLine.Replace("Superior ", "")))) // If account's map list contains an entry for this map
+                        if (temp.Any(x => x.Map.Name.Equals(CheckIfUnique(fetchModel.result[i])))) // If account's map list contains an entry for this map
                         {
-                            temp[temp.FindIndex(x => x.Map.Name.Equals(fetchModel.result[i].item.typeLine.Replace("Superior ", "")))].Quantity++;
+                            temp[temp.FindIndex(x => x.Map.Name.Equals(CheckIfUnique(fetchModel.result[i])))].Quantity++;
                         }
                         else
                         {
@@ -225,7 +224,7 @@ namespace PoEMapsViewModel
                             {
                                 Map = new Map
                                 {
-                                    Name = fetchModel.result[i].item.typeLine.Replace("Superior ", "")
+                                    Name = CheckIfUnique(fetchModel.result[i])
                                 },
                                 Quantity = 1,
                                 Price = fetchModel.result[i].listing.price
@@ -247,7 +246,7 @@ namespace PoEMapsViewModel
                                 {
                                     Map = new Map
                                      {
-                                        Name = fetchModel.result[i].item.typeLine.Replace("Superior ", "")
+                                        Name = CheckIfUnique(fetchModel.result[i])
                                      },
                                      Quantity = 1,
                                      Price = fetchModel.result[i].listing.price
@@ -368,6 +367,25 @@ namespace PoEMapsViewModel
             whisperMessage = sb.ToString();
 
             return whisperMessage;
+        }
+
+        public static string CheckIfUnique(Result result)
+        {
+            StringBuilder sb = new StringBuilder(result.item.typeLine);
+            sb.Replace("Superior ", "");
+            foreach (MapViewModel map in Helper.MapList.MapListMain)
+            {
+                if (!map.Map.Name.Contains("Map")) // if map name doesn't contain "map" - must be unique name
+                {
+                    if (result.listing.whisper.Contains(map.Map.Name))
+                    {
+                        sb.Insert(0, "Unique ");
+                        break;
+                    }
+                }
+            }
+
+            return sb.ToString();
         }
 
         #region INotifyPropertyChanged
