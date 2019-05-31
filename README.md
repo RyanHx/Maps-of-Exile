@@ -27,7 +27,7 @@ This will have the program log it's actions in a text file located at **ExeBaseD
 ## You're all set!
 That's pretty much it to get things up and running! Here's some info to get hold of me if you have any questions:
 * Path of Exile: RyanHx
-* Reddit: u/RyanHx
+* Reddit: [u/RyanHx](https://www.reddit.com/message/compose?to=RyanHx)
 * Discord: Ryan#3986
 
 ### Help! The program's not working!
@@ -37,4 +37,4 @@ There might be a few things happening so try the following before submitting a b
 * Add a rule in your firewall - a firewall is the most likely cause of any connection errors.
 * Check the API is up - there should be notifications on any failed HTTP requests. If the API is up and the problem's still happening, let me know how to reproduce the error and I'll work on a fix ASAP.
 
-If all else fails you can submit a bug report here [ADD LINK]
+If all else fails you can submit a bug report [here](https://github.com/RyanHx/Maps-of-Exile/issues)
