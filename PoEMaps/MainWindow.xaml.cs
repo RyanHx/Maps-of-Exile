@@ -26,7 +26,6 @@ namespace PoEMaps
 
         private async void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-
             if (PoEMapsViewModel.Helper.MapList.MapListMain.Any(x => x.IsChecked) && LeagueComboBox.SelectedValue != null)
             {
                 try
@@ -42,28 +41,13 @@ namespace PoEMaps
                 #region Catch exceptions
                 catch (HttpRequestException httpE)
                 {
-                    string path = AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Log.txt";
-                    if (PoEMapsViewModel.Helper.UserSettings.LoggingIsEnabled())
-                    {
-                        using (StreamWriter sw = File.AppendText(path))
-                        {
-                            sw.WriteLine("[" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + "] " + "HTTP request failed - Exception message: " + httpE.Message);
-                        }
-                    }
-                    MessageBox.Show("HTTP request failed with following message:\n\n" + httpE.Message + "\n\nIf logging is enabled check " + path + " for more details.", "HTTP request failed");
+                    PoEMapsViewModel.Helper.UserSettings.Log("HTTP request failed - Exception message: " + httpE.Message);
+                    MessageBox.Show("HTTP request failed with following message:\n\n" + httpE.Message + "\n\nIf logging is enabled check " + AppDomain.CurrentDomain.BaseDirectory + @"\Logs.txt" + " for more details.", "HTTP request failed");
                 }
                 catch (Exception ee)
                 {
-                    string path = AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Log.txt";
-                    if (PoEMapsViewModel.Helper.UserSettings.LoggingIsEnabled())
-                    {
-                        using (StreamWriter sw = File.AppendText(path))
-                        {
-                            sw.WriteLine("[" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + "] " + "SearchAsync() threw exception: " + ee.Message);
-                        }
-                    }
-
-                    MessageBox.Show("Search returned an error.\n\nIf logging is enabled check " + path + " for more details.", "Search error");
+                    PoEMapsViewModel.Helper.UserSettings.Log("SearchAsync() threw exception: " + ee.Message);
+                    MessageBox.Show("Search returned an error.\n\nIf logging is enabled check " + AppDomain.CurrentDomain.BaseDirectory + @"\Logs.txt" + " for more details.", "Search error");
                 }
                 #endregion
 
@@ -77,16 +61,7 @@ namespace PoEMaps
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             #region Create log file
-            string path = AppDomain.CurrentDomain.BaseDirectory + @"Logs";
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-                File.CreateText(path + @"\Log.txt");
-            }
-            else if (!File.Exists(path + @"\Log.txt"))
-            {
-                File.CreateText(path + @"\Log.txt");
-            }
+            PoEMapsViewModel.Helper.UserSettings.Log("--Start session--");
             #endregion
 
             #region Populate map list
@@ -103,16 +78,8 @@ namespace PoEMaps
             }
             catch (HttpRequestException httpE)
             {
-                string Logpath = AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Log.txt";
-                if (PoEMapsViewModel.Helper.UserSettings.LoggingIsEnabled())
-                {
-                    using (StreamWriter sw = File.AppendText(Logpath))
-                    {
-                        sw.WriteLine("[" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + "] " + "League API request failed - Exception message: " + httpE.Message);
-                    }
-                }
-
-                MessageBox.Show("Request to retrieve list of leagues from API failed with following message:\n\n" + httpE.Message + "\n\nIf logging is enabled check " + Logpath + " for more details.", "HTTP request failed");
+                PoEMapsViewModel.Helper.UserSettings.Log("League API request failed - Exception message: " + httpE.Message);                
+                MessageBox.Show("Request to retrieve list of leagues from API failed with following message:\n\n" + httpE.Message + "\n\nIf logging is enabled check " + AppDomain.CurrentDomain.BaseDirectory + @"\Logs.txt" + " for more details.", "HTTP request failed");
             }
 
             LeagueComboBox.Items.Refresh();
@@ -158,6 +125,7 @@ namespace PoEMaps
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             PoEMapsViewModel.Helper.UserSettings.SaveSettings();
+            PoEMapsViewModel.Helper.UserSettings.Log("--End session--");
         }
 
         private async void AccountComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

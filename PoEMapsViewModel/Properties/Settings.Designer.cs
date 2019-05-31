@@ -37,13 +37,25 @@ namespace PoEMapsViewModel.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool LoggingEnabled {
             get {
                 return ((bool)(this["LoggingEnabled"]));
             }
             set {
                 this["LoggingEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool LoggingFailPrompt {
+            get {
+                return ((bool)(this["LoggingFailPrompt"]));
+            }
+            set {
+                this["LoggingFailPrompt"] = value;
             }
         }
     }

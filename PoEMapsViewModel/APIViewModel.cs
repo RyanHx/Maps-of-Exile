@@ -87,13 +87,7 @@ namespace PoEMapsViewModel
 
             #region Trade/Search request
             #region Log search start
-            if (Helper.UserSettings.LoggingIsEnabled())
-            {
-                using (StreamWriter sw = File.AppendText(LogFile))
-                {
-                    sw.WriteLine("[" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + "] " + "Sending Trade/Search requests");
-                }
-            }
+            PoEMapsViewModel.Helper.UserSettings.Log("Sending Trade/Search requests");
             #endregion
             foreach (MapViewModel map in selectedMaps) // For all maps that are ticked
             {
@@ -123,27 +117,13 @@ namespace PoEMapsViewModel
                 resultModels.Add(JsonConvert.DeserializeObject<ResultModel>(await responseMessage.Content.ReadAsStringAsync())); // Add result to list
             }
             #region Log search success
-            if (Helper.UserSettings.LoggingIsEnabled())
-            {
-                using (StreamWriter sw = File.AppendText(LogFile))
-                {
-                    sw.WriteLine("[" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + "] " + "Trade/Search requests successful");
-                }
-            }
-
+            PoEMapsViewModel.Helper.UserSettings.Log("Trade/Search requests successful");
             #endregion
             #endregion
 
             #region Trade/Fetch request
             #region Log fetch start
-            if (Helper.UserSettings.LoggingIsEnabled())
-            {
-                using (StreamWriter sw = File.AppendText(LogFile))
-                {
-                    sw.WriteLine("[" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + "] " + "Sending Trade/Fetch requests");
-                }
-            }
-
+            PoEMapsViewModel.Helper.UserSettings.Log("Sending Trade/Fetch requests");
             #endregion
             foreach (ResultModel results in resultModels) // Iterate through results to make trade/fetch requests on each
             {
@@ -152,14 +132,7 @@ namespace PoEMapsViewModel
                 if (results.result.Length > 0)
                 {
                     #region Sort URLs into groups of 10 fetches (limit of API)
-                    if (Helper.UserSettings.LoggingIsEnabled())
-                    {
-                        using (StreamWriter sw = File.AppendText(LogFile))
-                        {
-                            sw.WriteLine("-- Sorting fetch URLs into fetchUrlCollection");
-                        }
-                    }
-
+                    PoEMapsViewModel.Helper.UserSettings.Log("-- Sorting fetch URLs into fetchUrlCollection");
                     for (int i = 0; i < results.result.Length; i++) //Trade API limits returned server error if too many fetch queries were in a single URL; limit seems to be ~10
                     {
                         if (!(i > Settings.Default.NumOfResults - 1))
@@ -203,22 +176,10 @@ namespace PoEMapsViewModel
                         fetchUrlCollection.Add(fetchUrl);
                     }
 
-                    if (Helper.UserSettings.LoggingIsEnabled())
-                    {
-                        using (StreamWriter sw = File.AppendText(LogFile))
-                        {
-                            sw.WriteLine("-- Sorting fetch URLs success");
-                        }
-                    }
+                    PoEMapsViewModel.Helper.UserSettings.Log("-- Sorting fetch URLs success");
 
                     #endregion
-                    if (Helper.UserSettings.LoggingIsEnabled())
-                    {
-                        using (StreamWriter sw = File.AppendText(LogFile))
-                        {
-                            sw.WriteLine("-- Begin fetches from fetchUrlCollection");
-                        }
-                    }
+                    PoEMapsViewModel.Helper.UserSettings.Log("-- Begin fetches from fetchUrlCollection");
 
                 }
                 if (fetchUrlCollection.Count > 0)
@@ -230,36 +191,17 @@ namespace PoEMapsViewModel
                         responseMessage.EnsureSuccessStatusCode(); // Throws HttpResponseException if fetch fails
                         fetchModels.Add(JsonConvert.DeserializeObject<FetchModel>(await responseMessage.Content.ReadAsStringAsync()));
                     }
-                    if (Helper.UserSettings.LoggingIsEnabled())
-                    {
-                        using (StreamWriter sw = File.AppendText(LogFile))
-                        {
-                            sw.WriteLine("-- Fetches from fetchUrlCollection success");
-                        }
-                    }
+                    PoEMapsViewModel.Helper.UserSettings.Log("-- Fetches from fetchUrlCollection success");
                 }
             }
             #region Log fetch success
-            if (Helper.UserSettings.LoggingIsEnabled())
-            {
-                using (StreamWriter sw = File.AppendText(LogFile))
-                {
-                    sw.WriteLine("[" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + "] " + "Trade/Fetch requests successful");
-                }
-            }
+            PoEMapsViewModel.Helper.UserSettings.Log("Trade/Fetch requests successful");
             #endregion
             #endregion
 
             #region Sort fetch results
             #region Log sort start
-            if (Helper.UserSettings.LoggingIsEnabled())
-            {
-                using (StreamWriter sw = File.AppendText(LogFile))
-                {
-                    sw.WriteLine("[" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + "] " + "Sorting fetch results");
-                }
-            }
-
+            PoEMapsViewModel.Helper.UserSettings.Log("Sorting fetch results");
             #endregion
             foreach (FetchModel fetchModel in fetchModels)
             {
@@ -338,13 +280,7 @@ namespace PoEMapsViewModel
                 }
             });
             #region Log sorting end
-            if (Helper.UserSettings.LoggingIsEnabled())
-            {
-                using (StreamWriter sw = File.AppendText(LogFile))
-                {
-                    sw.WriteLine("[" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + "] " + "Sorting results successful");
-                }
-            }
+            PoEMapsViewModel.Helper.UserSettings.Log("Sorting results successful");
             #endregion
             #endregion
         }
@@ -354,29 +290,13 @@ namespace PoEMapsViewModel
             List<LeagueModel> leagues = new List<LeagueModel>();
             string leagueUrl = @"http://api.pathofexile.com/leagues?realm=pc";
             HttpResponseMessage responseMessage = new HttpResponseMessage();
-            string LogFile = AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Log.txt";
-
             #region Log start of league request
-            if (Helper.UserSettings.LoggingIsEnabled())
-            {
-                using (StreamWriter sw = File.AppendText(LogFile))
-                {
-                    sw.WriteLine("[" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + "] " + "Start league API request");
-                }
-            }
-
+            PoEMapsViewModel.Helper.UserSettings.Log("Start league API request");
             #endregion
             responseMessage = await ApiClient.GetAsync(leagueUrl);
             responseMessage.EnsureSuccessStatusCode();
             #region Log league request success
-            if (Helper.UserSettings.LoggingIsEnabled())
-            {
-                using (StreamWriter sw = File.AppendText(LogFile))
-                {
-                    sw.WriteLine("[" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + "] " + "League API request success");
-                }
-            }
-
+            PoEMapsViewModel.Helper.UserSettings.Log("League API request success");
             #endregion
             leagues = JsonConvert.DeserializeObject<List<LeagueModel>>(await responseMessage.Content.ReadAsStringAsync());
             foreach (LeagueModel league in leagues)
