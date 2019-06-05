@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="API\AccountFromFetch.cs" />
     <Compile Include="API\Fetch.cs" />
+    <Compile Include="API\Github.cs" />
     <Compile Include="API\League.cs" />
     <Compile Include="API\Result.cs" />
     <Compile Include="API\Search.cs" />

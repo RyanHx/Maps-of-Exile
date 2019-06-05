@@ -17,6 +17,7 @@ namespace PoEMaps
     {
 
         public static string selectedAccount = "";
+        private static readonly string CurrentVersion = typeof(MainWindow).Assembly.GetName().Version.ToString();
 
         public MainWindow()
         {
@@ -102,6 +103,8 @@ namespace PoEMaps
 
             ResultsListView.ItemsSource = APIViewModel.observableResults;
             AccountComboBox.ItemsSource = APIViewModel.accountList;
+
+            await PoEMapsViewModel.Helper.Updater.CheckForUpdate(CurrentVersion);
         }
 
         private async void ClearButton_Click(object sender, RoutedEventArgs e)
