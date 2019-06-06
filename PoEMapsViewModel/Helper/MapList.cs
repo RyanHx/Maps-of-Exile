@@ -276,6 +276,9 @@ namespace PoEMapsViewModel.Helper
             return map.Map.Name.ToLower().Contains(filter.ToLower());
         }
 
+        /// <summary>
+        /// Sets all <c>IsChecked</c> of maps in <see cref="MapListMain"/> to false.
+        /// </summary>
         public static void Clear()
         {
             foreach (MapViewModel map in MapListMain)

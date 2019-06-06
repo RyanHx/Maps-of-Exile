@@ -7,9 +7,15 @@ using System.Threading.Tasks;
 
 namespace PoEMapsViewModel.Helper
 {
+    /// <summary>
+    /// Contains method to retrieve download URL of Version.xml from Github releases
+    /// </summary>
     public class Updater
     {
-
+        /// <summary>
+        /// Retrieves XML download URL via Github API.
+        /// </summary>
+        /// <returns>XML download URL</returns>
         public static async Task<string> GetXML()
         {
             List<PoEMapsModel.API.GithubReleaseModel> githubModel = new List<PoEMapsModel.API.GithubReleaseModel>();
