@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace PoEMapsModel.API
 {
-    public partial class GithubModel
+    public partial class GithubReleaseModel
     {
         [JsonProperty("url")]
         public Uri Url { get; set; }

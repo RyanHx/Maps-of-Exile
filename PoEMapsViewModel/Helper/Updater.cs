@@ -1,49 +1,38 @@
 ﻿using Newtonsoft.Json;
-using Squirrel;
+using PoEMapsModel.API;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace PoEMapsViewModel.Helper
 {
     public class Updater
     {
-        private static async Task Update()
-        {
-            using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/RyanHx/Maps-of-Exile", null, null, null, true))
-            {
-                await mgr.Result.UpdateApp();
-            }
-        }
 
-        public static async Task CheckForUpdate(string ver)
+        public static async Task<string> GetXML()
         {
-            List<PoEMapsModel.API.GithubModel> githubModel = new List<PoEMapsModel.API.GithubModel>();
+            List<PoEMapsModel.API.GithubReleaseModel> githubModel = new List<PoEMapsModel.API.GithubReleaseModel>();
 
             APIViewModel.ApiClient.DefaultRequestHeaders.Accept.Clear();
             APIViewModel.ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             APIViewModel.ApiClient.DefaultRequestHeaders.Add("User-Agent", "Maps-of-Exile");
 
             HttpResponseMessage responseMessage = new HttpResponseMessage();
-            responseMessage = await APIViewModel.ApiClient.GetAsync("https://api.github.com/repos/RyanHx/Maps-of-Exile/releases");
+            responseMessage = await APIViewModel.ApiClient.GetAsync(@"https://api.github.com/repos/RyanHx/Maps-of-Exile/releases");
             if (responseMessage.IsSuccessStatusCode)
             {
-                githubModel = JsonConvert.DeserializeObject<List<PoEMapsModel.API.GithubModel>>(await responseMessage.Content.ReadAsStringAsync());
-                StringBuilder CurrentVersion = new StringBuilder(ver);
-                CurrentVersion.Remove(5, 2);
-                if (!CurrentVersion.ToString().Equals(githubModel[0].TagName.Replace("v", "")))
+                githubModel = JsonConvert.DeserializeObject<List<PoEMapsModel.API.GithubReleaseModel>>(await responseMessage.Content.ReadAsStringAsync());
+                foreach(Asset asset in githubModel[0].Assets)
                 {
-                    await Update();
-                    MessageBox.Show("A new version of the application has been found and installed. Restart to load new version.", "Update found");
+                    if (asset.Name.Contains("Version.xml"))
+                    {
+                        return asset.BrowserDownloadUrl.ToString();
+                    }
                 }
             }
-            else
-            {
-                MessageBox.Show("Error when checking for update:\n\n" + responseMessage.ReasonPhrase, "Update failed");
-            }
+
+            return "Error";
         }
     }
 }
