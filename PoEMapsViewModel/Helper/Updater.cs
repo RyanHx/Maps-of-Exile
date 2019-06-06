@@ -1,0 +1,38 @@
+﻿using Newtonsoft.Json;
+using PoEMapsModel.API;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+
+namespace PoEMapsViewModel.Helper
+{
+    public class Updater
+    {
+
+        public static async Task<string> GetXML()
+        {
+            List<PoEMapsModel.API.GithubReleaseModel> githubModel = new List<PoEMapsModel.API.GithubReleaseModel>();
+
+            APIViewModel.ApiClient.DefaultRequestHeaders.Accept.Clear();
+            APIViewModel.ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            APIViewModel.ApiClient.DefaultRequestHeaders.Add("User-Agent", "Maps-of-Exile");
+
+            HttpResponseMessage responseMessage = new HttpResponseMessage();
+            responseMessage = await APIViewModel.ApiClient.GetAsync(@"https://api.github.com/repos/RyanHx/Maps-of-Exile/releases");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                githubModel = JsonConvert.DeserializeObject<List<PoEMapsModel.API.GithubReleaseModel>>(await responseMessage.Content.ReadAsStringAsync());
+                foreach(Asset asset in githubModel[0].Assets)
+                {
+                    if (asset.Name.Contains("Version.xml"))
+                    {
+                        return asset.BrowserDownloadUrl.ToString();
+                    }
+                }
+            }
+
+            return "Error";
+        }
+    }
+}

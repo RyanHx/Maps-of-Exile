@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,6 +51,7 @@
   <ItemGroup>
     <Compile Include="APIViewModel.cs" />
     <Compile Include="Helper\MapList.cs" />
+    <Compile Include="Helper\Updater.cs" />
     <Compile Include="Helper\UserSettings.cs" />
     <Compile Include="MapViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
