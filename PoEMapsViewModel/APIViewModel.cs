@@ -55,7 +55,7 @@ namespace PoEMapsViewModel
 
         #region HttpClient
         private static HttpClientHandler ClientHandler = new HttpClientHandler();
-        private static HttpClient ApiClient = new HttpClient(ClientHandler, false);
+        public static HttpClient ApiClient = new HttpClient(ClientHandler, false);
         #endregion
 
         public static ObservableCollection<string> LeagueList = new ObservableCollection<string>();

@@ -1,12 +1,12 @@
 ﻿using PoEMapsViewModel;
 using System;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using AutoUpdaterDotNET;
 
 namespace PoEMaps
 {
@@ -114,6 +114,15 @@ namespace PoEMaps
 
             ResultsListView.ItemsSource = APIViewModel.observableResults;
             AccountComboBox.ItemsSource = APIViewModel.accountList;
+
+            #region Check for updates
+            string xml = Task.Run(() => PoEMapsViewModel.Helper.Updater.GetXML()).Result;
+            if (!xml.Equals("Error"))
+            {
+                AutoUpdater.Start(xml);
+            }
+            #endregion
+
         }
 
         /// <summary>
