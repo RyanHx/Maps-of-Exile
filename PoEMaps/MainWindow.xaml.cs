@@ -24,6 +24,12 @@ namespace PoEMaps
             DataContext = this;
         }
 
+        /// <summary>
+        /// Sends a call to <see cref="APIViewModel.SearchAsync(string)"/> method with the currently selected league
+        /// </summary>
+        /// <param name="sender">Object - the "Search" button</param>
+        /// <param name="e">RoutedEventArgs - event data</param>
+        /// See <see cref="APIViewModel.SearchAsync(string)"/> for full search method
         private async void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             if (PoEMapsViewModel.Helper.MapList.MapListMain.Any(x => x.IsChecked) && LeagueComboBox.SelectedValue != null)
@@ -58,6 +64,12 @@ namespace PoEMaps
             }
         }
 
+        /// <summary>
+        /// Logs session start, calls methods that populate the GUI lists & check for updates
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// See <see cref="PoEMapsViewModel.Helper.UserSettings.Log(string)"/>, <see cref="PoEMapsViewModel.Helper.MapList.GetMaps()"/>, <see cref="APIViewModel.GetLeaguesAsync()"/>, <see cref="PoEMapsViewModel.Helper.Updater.GetXML()"/>.
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             #region Create log file
@@ -104,6 +116,12 @@ namespace PoEMaps
             AccountComboBox.ItemsSource = APIViewModel.accountList;
         }
 
+        /// <summary>
+        /// Calls <see cref="PoEMapsViewModel.Helper.MapList.Clear()"/> method that clears all tickboxes in map list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// See <see cref="PoEMapsViewModel.Helper.MapList.Clear()"/>.
         private async void ClearButton_Click(object sender, RoutedEventArgs e)
         {
             await Task.Run(() => PoEMapsViewModel.Helper.MapList.Clear());
@@ -122,12 +140,23 @@ namespace PoEMaps
             return PoEMapsViewModel.Helper.MapList.Filter(item, FilterTextBox.Text);
         }
 
+        /// <summary>
+        /// Saves user settings and logs session end.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// See <see cref="PoEMapsViewModel.Helper.UserSettings.SaveSettings()"/>, <see cref="PoEMapsViewModel.Helper.UserSettings.Log(string)"/>.
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             PoEMapsViewModel.Helper.UserSettings.SaveSettings();
             PoEMapsViewModel.Helper.UserSettings.Log("--End session--");
         }
 
+        /// <summary>
+        /// Calls <see cref="APIViewModel.GenerateWhisper(string)"/> with selected account.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void AccountComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (AccountComboBox.SelectedValue != null)
@@ -137,6 +166,11 @@ namespace PoEMaps
             }
         }
 
+        /// <summary>
+        /// Calls <see cref="APIViewModel.GenerateWhisper(string)"/> with selected account.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void QuantSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (AccountComboBox.SelectedValue != null)
@@ -146,6 +180,11 @@ namespace PoEMaps
             }
         }
 
+        /// <summary>
+        /// Calls <see cref="APIViewModel.GenerateWhisper(string)"/> with selected account.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void MapResultCheckbox_Click(object sender, RoutedEventArgs e)
         {
             if (AccountComboBox.SelectedValue != null)
@@ -155,6 +194,11 @@ namespace PoEMaps
             }
         }
 
+        /// <summary>
+        /// Updates <see cref="selectedAccount"/> with selection.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ResultsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ResultsListView.SelectedItems.Count > 0)
@@ -164,6 +208,11 @@ namespace PoEMaps
             }
         }
 
+        /// <summary>
+        /// Copies whisper to clipboard.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CopyButton_Click(object sender, RoutedEventArgs e)
         {
             if (WhisperTextBox.Text.Length > 0)
@@ -172,6 +221,12 @@ namespace PoEMaps
             }
         }
 
+        /// <summary>
+        /// Updates 'Number of results' user setting.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// See <see cref="PoEMapsViewModel.Helper.UserSettings.SetNumOfResults(int)"/>.
         private void NumOfResultsMenuItem_Click(object sender, RoutedEventArgs e)
         {
             MenuItem item = (MenuItem)sender;
@@ -190,6 +245,12 @@ namespace PoEMaps
             }
         }
 
+        /// <summary>
+        /// Toggles logging.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// See <see cref="PoEMapsViewModel.Helper.UserSettings.ToggleLogging()"/>.
         private void LoggingMenuItem_Click(object sender, RoutedEventArgs e)
         {
             PoEMapsViewModel.Helper.UserSettings.ToggleLogging();
@@ -201,6 +262,11 @@ namespace PoEMaps
 
         }
 
+        /// <summary>
+        /// Opens Maps of Exile Github page.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GithubMenuItem_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/RyanHx/Maps-of-Exile");

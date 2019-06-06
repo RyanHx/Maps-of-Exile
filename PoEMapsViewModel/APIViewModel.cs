@@ -16,6 +16,9 @@ using System.Windows;
 
 namespace PoEMapsViewModel
 {
+    /// <summary>
+    /// Contains all logic for communicating with GGG and Github APIs.
+    /// </summary>
     public class APIViewModel : INotifyPropertyChanged
     {
         #region members
@@ -59,6 +62,13 @@ namespace PoEMapsViewModel
         public static ObservableCollection<APIViewModel> observableResults = new ObservableCollection<APIViewModel>();
         public static ObservableCollection<string> accountList = new ObservableCollection<string>();
 
+        /// <summary>
+        /// Handles Search/Trade and Search/Fetch requests, then adds all results to <c>observableResults</c>.
+        /// </summary>
+        /// <param name="selectedLeague">League selected via the GUI dropdown</param>
+        /// <returns>Task (not used)</returns>
+        /// See <see cref="ResultModel"/>, <see cref="FetchModel"/>, <see cref="MapViewModel"/>.
+        /// <seealso cref="JsonConvert.DeserializeObject{T}(string)"/>
         public static async Task SearchAsync(string selectedLeague)
         {
             List<ResultModel> resultModels = new List<ResultModel>();
@@ -284,6 +294,11 @@ namespace PoEMapsViewModel
             #endregion
         }
 
+        /// <summary>
+        /// Retrieves list of currently active leagues and places them in <see cref="LeagueList"/>.
+        /// </summary>
+        /// <returns>Task (not used)</returns>
+        /// <seealso cref="JsonConvert.DeserializeObject{T}(string)"/>
         public static async Task GetLeaguesAsync()
         {
             List<LeagueModel> leagues = new List<LeagueModel>();
@@ -307,6 +322,11 @@ namespace PoEMapsViewModel
             }
         }
 
+        /// <summary>
+        /// Generates whisper via currently selected account & maps.
+        /// </summary>
+        /// <param name="selectedAccount">Selected account from GUI selection</param>
+        /// <returns>Whisper message</returns>
         public static string GenerateWhisper(string selectedAccount)
         {
             ObservableCollection<MapViewModel> accountMapList = observableResults.FirstOrDefault(x => x.AccountName.Equals(selectedAccount)).Maps;
@@ -369,6 +389,11 @@ namespace PoEMapsViewModel
             return whisperMessage;
         }
 
+        /// <summary>
+        /// Checks map list to match with any map name that doesn't contain "Map", i.e. unique maps
+        /// </summary>
+        /// <param name="result">A fetch result contain all listing information. See <see cref="Result"/></param>
+        /// <returns>Map name - will be unchanged if it couldn't match any unique map names</returns>
         public static string CheckIfUnique(Result result)
         {
             StringBuilder sb = new StringBuilder(result.item.typeLine);

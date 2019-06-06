@@ -7,6 +7,9 @@ namespace PoEMapsViewModel.Helper
     {
         public static ObservableCollection<MapViewModel> MapListMain = new ObservableCollection<MapViewModel>();
 
+        /// <summary>
+        /// Populates map list.
+        /// </summary>
         public static void GetMaps()
         {
             #region Add maps
@@ -264,6 +267,7 @@ namespace PoEMapsViewModel.Helper
             MapListMain.Add(new MapViewModel { Map = new Map { Name = "Lair of the Hydra Map", Tier = 16 } });
             #endregion
         }
+
 
         public static bool Filter(object item, string filter)
         {
