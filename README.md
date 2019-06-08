@@ -1,6 +1,7 @@
 # Welcome to Maps of Exile!
 
 **Maps of Exile** is a desktop application used for buying maps in bulk in Path of Exile. You select the maps you want and it'll aggregate any results by account to save time on trading.
+![Maps of Exile search](https://i.imgur.com/DKwqUfa.png)
 
 ## Getting started
 
