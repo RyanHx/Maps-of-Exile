@@ -86,15 +86,15 @@
                           ItemsSource="{Binding Maps}"
                           ItemTemplate="{StaticResource MapsListItems}"
                           VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch"
                           IsSynchronizedWithCurrentItem="True"
-                          Background="White"
-                          Foreground="#FF39393A" />
+                          Background="#FF2D2D30"
+                          Foreground="White" />
             </Grid>
         </DataTemplate>
     </Window.Resources>
 
     <Border Padding="5">
-
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
@@ -182,7 +182,8 @@
                                         x:Name="LeagueComboBox"
                                         Margin="0 0 0 0"
                                         Padding="2 2 2 2"
-                                        HorizontalContentAlignment="Center" />
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"/>
 
 
                 <!-- Search Button -->
@@ -225,11 +226,14 @@
                                       x:Name="_50"
                                       Click="NumOfResultsMenuItem_Click" />
                         </MenuItem>
+                        
                         <MenuItem x:Name="LoggingMenuItem"
                                   Header="Enable logging"
                                   IsCheckable="True"
                                   Click="LoggingMenuItem_Click" />
-                        <MenuItem x:Name="GithubMenuItem" Header="Github..." IsCheckable="False"
+                        <MenuItem x:Name="GithubMenuItem" 
+                                  Header="Github..." 
+                                  IsCheckable="False"
                                   Click="GithubMenuItem_Click" />
                     </MenuItem>
                 </Menu>
@@ -273,6 +277,7 @@
                                         Margin="0 0 0 0"
                                         Padding="2 2 2 0"
                                         HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
                                         SelectionChanged="AccountComboBox_SelectionChanged" />
 
                 <!-- Whisper text box -->
