@@ -285,7 +285,7 @@
                          Grid.Column="1"
                          x:Name="WhisperTextBox"
                          Background="#FF333337"
-                         TextWrapping="Wrap"
+                         TextWrapping="NoWrap"
                          Foreground="White" />
                 <!-- Copy button -->
                 <Button Grid.Column="2"
