@@ -226,7 +226,7 @@ namespace PoEMaps
         {
             if (WhisperTextBox.Text.Length > 0)
             {
-                Clipboard.SetText(WhisperTextBox.Text);
+                Clipboard.SetDataObject(WhisperTextBox.Text);
             }
         }
 
